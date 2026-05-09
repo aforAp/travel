@@ -29,12 +29,12 @@ const StatsCard = ({
                         {Math.round(percentage)}%
                        </figcaption>
                     </figure>
-                    <p className="text-sm font-medium text-gray-100 truncate">
+                    <p className="text-sm ml-3 font-medium text-gray-100 truncate">
                         vs last month
                     </p>
                 </div>
             </div>
-            <img src={isDecrement ? Decrement: Increment} className="xl:w-32 w-50% h-full md:h-32 xl:h-full" alt="trend graph" />
+            <img src={isDecrement ? Decrement: Increment} className="xl:w-30 w-50% h-full md:h-32 xl:h-full" alt="trend graph" />
         </div>
     </article>
   )
