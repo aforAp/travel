@@ -10,14 +10,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    accountId: {
+    password: {
         type: String,
-        required: true,
-        maxlength: 1000,
-    },
-    googleId: {
-      type: String,
-      required: true,
+        required: true
     },
     imageUrl: {
         type: String,

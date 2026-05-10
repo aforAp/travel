@@ -1,24 +1,47 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const OAuthSuccess = () => {
+function OAuthSuccess() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const params = new URLSearchParams(
-      window.location.search
-    );
+    async function LoginConfirm() {
+      const params = new URLSearchParams(
+        window.location.search
+      );
 
-    const token = params.get("token");
+      const token = params.get("token");
 
-    if (token) {
+      if (!token) {
+        return;
+      }
+
       localStorage.setItem("token", token);
 
-      navigate("/");
+      console.log(token);
+
+      const response = await fetch(
+        "http://localhost:3001/auth/me",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      console.log(data);
+
+      if (response.ok) {
+        navigate("/");
+      }
     }
-  }, []);
+
+    LoginConfirm();
+  }, [navigate]);
 
   return <h1>Logging in...</h1>;
-};
+}
 
 export default OAuthSuccess;

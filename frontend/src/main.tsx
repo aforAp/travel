@@ -6,8 +6,13 @@ import { RouterProvider } from 'react-router';
 import Dashboard from './routes/admin/dashboard';
 import AdminLayout from './routes/admin/admin-layout';
 import AllUsers from './routes/admin/all-users';
+import SignIn from './routes/admin/root/sign-in';
+
 const router = createBrowserRouter(
   [
+    {path: '/forms', element: <SignIn />,
+
+    },
     {path: '/', element: <AdminLayout />, 
       children:[
 {

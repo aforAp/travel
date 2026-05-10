@@ -1,41 +1,62 @@
 import express from "express";
-import passport from "passport";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import multer from "multer";
+import fs from "fs";
+
+import User from '../models/User.js';
 import authMiddleware from "../middleware/auth.middleware.js";
+import cloudinary from "../config/cloudinary.js";
 const router = express.Router();
-
-router.get(
-  "/google",
-
-  passport.authenticate("google", {
-    scope: ["profile", "email"],
-  })
-);
-
-router.get(
-  "/google/callback",
-
-  passport.authenticate("google", {
-    session: false,
-  }),
-
+const upload = multer({
+  dest: "uploads/",
+});
+router.post( "/signup",
+  upload.single("profileImage"),
   async (req, res) => {
     try {
-      const token = jwt.sign(
-        {
-          id: req.user._id,
-        },
+      const {name, email, password, joinedAt} = req.body;
+      console.log(name, email, password, joinedAt);
 
-        process.env.JWT_SECRET,
+      const existingUser = await User.findOne({
+        email,
+      });
 
-        {
-          expiresIn: "7d",
-        }
+      if (existingUser) {
+        return res.status(400).json({
+          message: "User already exists",
+        });
+      }
+
+      const hashedPassword = await bcrypt.hash(
+        password,
+        10
       );
 
-      res.redirect(
-        `http://localhost:5173/oauth-success?token=${token}`
-      );
+      let imageUrl = "";
+
+      if (req.file) {
+        const result = await cloudinary.uploader.upload(
+          req.file.path
+        );
+
+        imageUrl = result.secure_url;
+
+        fs.unlinkSync(req.file.path);
+      }
+
+      const user = await User.create({
+        name,
+        email,
+        password: hashedPassword,
+        profileImage: imageUrl,
+        joinedAt
+      });
+
+      res.status(201).json({
+        message: "Signup successful",
+        user,
+      });
     } catch (error) {
       res.status(500).json({
         message: error.message,
@@ -43,43 +64,61 @@ router.get(
     }
   }
 );
+
+router.post("/signin", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({
+      email,
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    const isMatch = await bcrypt.compare(
+      password,
+      user.password
+    );
+
+    if (!isMatch) {
+      return res.status(400).json({
+        message: "Invalid credentials",
+      });
+    }
+
+    const token = jwt.sign(
+      {
+        id: user._id,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
+
+    res.status(200).json({
+      token,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
 
 router.get(
   "/me",
-
   authMiddleware,
-
   async (req, res) => {
     try {
       const user = await User.findById(
         req.userId
-      );
-
-      res.status(200).json(user);
-    } catch (error) {
-      res.status(500).json({
-        message: error.message,
-      });
-    }
-  }
-);
-
-router.get(
-  "/existing-user",
-
-  authMiddleware,
-
-  async (req, res) => {
-    try {
-      const user = await User.findById(
-        req.userId
-      );
-
-      if (!user) {
-        return res.status(404).json({
-          message: "User not found",
-        });
-      }
+      ).select("-password");
 
       res.status(200).json(user);
     } catch (error) {
