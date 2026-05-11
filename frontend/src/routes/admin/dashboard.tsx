@@ -1,12 +1,56 @@
+import {useState, useEffect} from 'react';
 import { Header, StatsCard, TripCard } from "../../components"
 import { dashboardStats, user, allTrips } from "../../constants";
 
 const {totalUsers, usersJoined, totalTrips, tripsCreated, userRole} = dashboardStats;
+type User = {
+  name: string;
+  email: string;
+};
 const Dashboard = () => {
+ const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+ useEffect(() => {
+
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          "http://localhost:3001/auths/me",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        // request failed
+        if (!response.ok) {
+          throw new Error("Failed to fetch user");
+        }
+
+        const data = await response.json();
+
+        console.log(data);
+
+        // adjust this based on backend response
+        setCurrentUser(data);
+
+      } catch (error) {
+        console.log("Error fetching user:", error);
+      } 
+    };
+
+    fetchUser();
+
+  }, []);
+
   
   return (
     <main className="dashboard wrapper">
-      <Header title={`Welcome ${user?.name ?? 'Guest'} `} description="Track activity, trends and popular destinations in real time" />
+      <Header title={`Welcome ${currentUser?.name ?? 'Guest'} `} description="Track activity, trends and popular destinations in real time" />
        <section className="flex flex-col gap-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
            <StatsCard 

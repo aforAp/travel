@@ -4,7 +4,7 @@ import './index.css'
 import { createBrowserRouter } from 'react-router';
 import { RouterProvider } from 'react-router';
 import Dashboard from './routes/admin/dashboard';
-import AdminLayout from './routes/admin/admin-layout';
+import AdminLayout, { clientLoader } from './routes/admin/admin-layout';
 import AllUsers from './routes/admin/all-users';
 import SignIn from './routes/admin/root/sign-in';
 
@@ -13,7 +13,7 @@ const router = createBrowserRouter(
     {path: '/forms', element: <SignIn />,
 
     },
-    {path: '/', element: <AdminLayout />, 
+    {path: '/', element: <AdminLayout />, loader: clientLoader,
       children:[
 {
   path:'dashboard', element: <Dashboard />

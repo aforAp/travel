@@ -1,16 +1,48 @@
-import { Link, NavLink } from "react-router"
+import { Link, NavLink, useNavigate } from "react-router"
 import logo from "../assets/icons/logo.svg";
-import Person from "../assets/images/david.webp";
 import Logout from "../assets/icons/logout.svg";
 import { sidebarItems } from "../constants/index.ts";
 import { cn } from "../lib/utils.ts";
-const NavItems = () => {
-  const user = {
-    name: 'Sath',
-    email: 'satheesh@gmail.com',
-    imageUrl: Person
-  };
+import { useEffect, useState } from "react";
 
+interface User {
+  _id: string;
+  name: string;
+  email: string;
+  imageUrl?: string;
+  role: string;
+  joinedAt?: string;
+}
+
+const NavItems = () => {
+ const [user, setUser] = useState<User>(); 
+ const navigate = useNavigate();
+  useEffect(() => {
+async function FindMe() {
+  const token = localStorage.getItem("token");
+  if(!token) return;
+  try{
+  const res= await fetch('http://localhost:3001/auths/me', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+      const data = await res.json();
+      console.log("datas are", data);
+      setUser(data);   
+        } 
+        catch(error) {
+          console.log(error);
+        }
+}
+
+FindMe();
+  }, []);
+
+  const handleLogout = async () => {
+    localStorage.clear();
+    navigate('/forms');
+  }
   return (
    <section className="nav-items">
     <Link to="/" className="link-logo">
@@ -38,9 +70,7 @@ const NavItems = () => {
           <h2>{user?.name}</h2>
           <p>{user?.email}</p>
          </article>
-         <button onClick={() => {
-          console.log('logout')
-         }} className="cursor-pointer">
+         <button onClick={handleLogout} className="cursor-pointer">
              <img src={Logout} alt="logout" className="size-6" />
          </button>
       </footer>

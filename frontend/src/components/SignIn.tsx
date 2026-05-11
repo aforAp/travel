@@ -3,7 +3,6 @@ import { useState } from "react";
 
 const SignInForm = ({setFormNeeded}) => {
   const navigate = useNavigate();
-
   const [formData, setFormData] =
     useState({
       email: "",
@@ -18,7 +17,6 @@ const SignInForm = ({setFormNeeded}) => {
     e: React.FormEvent<HTMLFormElement>
   ) {
     e.preventDefault();
-
     try {
       const response = await fetch(
         "http://localhost:3001/auths/signin",
@@ -43,10 +41,12 @@ const SignInForm = ({setFormNeeded}) => {
           "token",
           data.token
         );
+        if(data.user.status === 'admin') {
 
-        navigate("/");
+          navigate("/");
+        }
       } else {
-        alert(data.message);
+        navigate('/forms');
       }
     } catch (error) {
       console.log(error);
