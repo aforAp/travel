@@ -9,7 +9,7 @@ interface User {
   _id: string;
   name: string;
   email: string;
-  imageUrl?: string;
+  profileImage?: string;
   role: string;
   joinedAt?: string;
 }
@@ -65,7 +65,7 @@ FindMe();
         ))}
       </nav>
       <footer className="nav-footer">
-         <img src={user?.imageUrl} alt={user?.name || 'David'} />
+         <img src={user?.profileImage} alt={user?.name || 'David'} />
          <article>
           <h2>{user?.name}</h2>
           <p>{user?.email}</p>

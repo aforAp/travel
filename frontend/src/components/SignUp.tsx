@@ -16,11 +16,10 @@ function Signup({setFormNeeded}:  {
     name: "",
     email: "",
     password: "",
+    imageUrl: "",
     joinedAt: "",
   });
 
-  const [profileImage, setProfileImage] =
-    useState<File | null>(null);
 
   async function handleSubmit(e : React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -31,18 +30,15 @@ function Signup({setFormNeeded}:  {
     data.append("email", formData.email);
     data.append("password", formData.password);
     data.append("joinedAt", formData.joinedAt);
-if(profileImage){
-
-    data.append(
-      "profileImage",
-      profileImage
-    );
-}
+    data.append("imageUrl", formData.imageUrl);
     const response = await fetch(
       "http://localhost:3001/auths/signup",
       {
         method: "POST",
-        body: data,
+        headers: {
+      "Content-Type": "application/json",
+    },
+        body: JSON.stringify({...formData})
       }
     );
 
@@ -103,25 +99,18 @@ if(profileImage){
         }
           className='input'
       />
-<label
-  htmlFor="profileImage"
-  className="bg-green-500 h-[48px] flex justify-center mt-1 p-3 cursor-pointer rounded-lg text-white"
->
-  Upload File
-</label>
-
 <input
   id="profileImage"
-  type="file"
-  className="hidden"
+  type="input"
+  className='input'
+  placeholder="ImageUrl"
   onChange={(
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    if (e.target.files) {
-      setProfileImage(
-        e.target.files[0]
-      );
-    }
+      setFormData({
+       ...formData,
+      imageUrl: e.target.value
+      });
   }}
 />
 <span className="flex flex-col">

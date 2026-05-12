@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const SignInForm = ({setFormNeeded}) => {
@@ -31,9 +31,12 @@ const SignInForm = ({setFormNeeded}) => {
           body: JSON.stringify(formData),
         }
       );
-
       const data = await response.json();
-
+      console.log(data);
+      if(data.status === 404 || data.status === 400) {
+        alert("Invalid Credentials");
+        setFormNeeded(false);
+      }
       console.log(data);
 
       if (response.ok) {

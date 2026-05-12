@@ -1,22 +1,18 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import multer from "multer";
 import fs from "fs";
 
 import User from '../models/User.js';
 import authMiddleware from "../middleware/auth.middleware.js";
-import cloudinary from "../config/cloudinary.js";
 const router = express.Router();
-const upload = multer({
-  dest: "uploads/",
-});
+
 router.post( "/signup",
-  upload.single("profileImage"),
   async (req, res) => {
     try {
-      const {name, email, password, joinedAt} = req.body;
-      console.log(name, email, password, joinedAt);
+      console.log(req.body);
+      const {name, email, password, imageUrl, joinedAt} = req.body;
+      console.log(name, email, password, joinedAt, imageUrl);
 
       const existingUser = await User.findOne({
         email,
@@ -32,18 +28,7 @@ router.post( "/signup",
         password,
         10
       );
-
-      let imageUrl = "";
-
-      if (req.file) {
-        const result = await cloudinary.uploader.upload(
-          req.file.path
-        );
-
-        imageUrl = result.secure_url;
-
-        fs.unlinkSync(req.file.path);
-      }
+     
 
       const user = await User.create({
         name,
@@ -62,8 +47,7 @@ router.post( "/signup",
         message: error.message,
       });
     }
-  }
-);
+});
 
 router.post("/signin", async (req, res) => {
   try {
@@ -75,6 +59,7 @@ router.post("/signin", async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
+        status: 404,
         message: "User not found",
       });
     }
@@ -86,6 +71,7 @@ router.post("/signin", async (req, res) => {
 
     if (!isMatch) {
       return res.status(400).json({
+        status: 400,
         message: "Invalid credentials",
       });
     }

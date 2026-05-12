@@ -10,9 +10,7 @@ import SignIn from './routes/admin/root/sign-in';
 
 const router = createBrowserRouter(
   [
-    {path: '/forms', element: <SignIn />,
-
-    },
+    {path: '/forms', element: <SignIn />},
     {path: '/', element: <AdminLayout />, loader: clientLoader,
       children:[
 {

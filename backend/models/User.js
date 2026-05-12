@@ -14,9 +14,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    imageUrl: {
+    profileImage: {
         type: String,
-        maxlength: 1000
+        maxlength: 10000
     },
     joinedAt: {
         type: Date,
