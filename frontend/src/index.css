@@ -1,4 +1,9 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/inter";
+
+@custom-variant dark (&:is(.dark *));
 @theme {
   --font-figtree: "Figtree", sans-serif;
   --font-inter: "Inter", sans-serif;
@@ -28,7 +33,7 @@
   --color-red-500: #b93815;
   --color-red-50: #fff4ed;
   --color-red-100: #ff543d;
-  
+
   --background-image-auth: url("/images/auth-img.webp");
   --background-image-hero: url("/images/hero-img.png");
   --background-image-card-1: url("/images/card-img-1.png");
@@ -63,17 +68,17 @@
   .error {
     @apply text-center text-base font-medium text-red-500;
   }
-  
+
   .input {
      @apply w-[100%] h-12 placeholder:pl-3 my-2 rounded-2xl border-gray-100 border-1;
   }
   .all-users {
     @apply flex min-h-screen w-full flex-col gap-10;
   }
-  
+
   .stats-card {
     @apply shadow-400 rounded-20 text-dark-100 flex flex-col gap-6 bg-white p-6;
-    
+
     .content {
       @apply flex flex-row justify-between gap-3 md:flex-col-reverse xl:flex-row xl:items-center;
     }
@@ -85,34 +90,34 @@
     header {
       @apply flex items-center justify-center gap-1.5;
     }
-    
+
     article {
       @apply mb-[30px] mt-9 flex flex-col gap-3;
     }
   }
-  
+
   .info-pill {
     @apply flex items-center gap-1.5;
     img {
       @apply size-5;
     }
-    
+
     figcaption {
       @apply truncate text-sm font-normal text-gray-100 md:text-lg;
     }
   }
-  
+
   .trip {
     @apply flex flex-col gap-10 pb-20;
     section {
       @apply mt-2.5 flex flex-col gap-5;
     }
   }
-  
+
   .auth {
     @apply bg-auth flex h-screen w-full bg-cover bg-no-repeat;
   }
-  
+
   .payment-success {
     @apply flex h-screen flex-col items-center justify-center gap-10 pb-20;
     section {
@@ -122,35 +127,35 @@
         h1 {
           @apply text-dark-100 text-xl font-semibold md:text-3xl;
         }
-        
+
         p {
           @apply text-center text-sm font-normal text-gray-100 md:text-lg;
         }
       }
     }
   }
-  
+
   .trip-form {
     @apply border-light-200 shadow-100 flex flex-col gap-6 rounded-xl border
     bg-white py-6;
     div {
       @apply relative flex w-full flex-col gap-2.5 px-6;
     }
-    
+
     label {
       @apply text-sm font-normal text-gray-100;
     }
   }
-  
+
   .travel-hero {
     @apply bg-hero bg-cover bg-origin-content;
-    
+
     div {
       @apply bg-linear100 flex flex-col bg-cover;
-      
+
       section {
         @apply flex flex-col items-start justify-center gap-6 py-48;
-        
+
         article {
           @apply flex w-full flex-col gap-3.5 md:max-w-[520px];
           p {
@@ -160,57 +165,57 @@
       }
     }
   }
-  
+
   .travel-featured {
     @apply gap-[30px] flex h-2/3 flex-col lg:flex-row lg:h-1/2;
   }
-  
+
   .travel-detail {
     @apply flex flex-col gap-10 pb-20;
-    
+
     .travel-div {
       @apply flex flex-col gap-10 lg:flex-row;
     }
-    
+
     .back-link {
       @apply px-[30px] shadow-500 h-[50px] w-[240px] flex items-center justify-center
     gap-2.5 rounded-lg border-gray-200 bg-white py-3;
-      
+
       img {
         @apply size-[17px];
       }
-      
+
       span {
         @apply text-dark-100 text-base font-semibold;
       }
     }
-    
+
     .container {
       @apply mt-2.5 flex flex-col gap-9;
-      
+
       header {
         @apply flex flex-col gap-6 overflow-hidden;
-        
+
         div {
           @apply flex items-center gap-5;
         }
       }
-      
+
       .gallery {
         @apply mt-1 grid grid-cols-1 gap-7 md:grid-cols-3 md:grid-rows-2;
       }
     }
-    
+
     .visit {
       @apply flex flex-col gap-5;
-      
+
       div {
         @apply flex flex-col gap-4;
-        
+
         h3 {
           @apply text-dark-400 text-base font-semibold md:text-xl;
         }
-        
+
         ul {
           @apply flex flex-col gap-3;
           li {
@@ -220,17 +225,17 @@
         }
       }
     }
-    
+
     .itinerary {
       @apply flex flex-col gap-9;
-      
+
       li {
         @apply flex flex-col gap-4;
-        
+
         h3 {
           @apply text-dark-400 text-base font-semibold md:text-xl;
         }
-        
+
         ul {
           @apply flex flex-col gap-7 sm:gap-3;
           li {
@@ -243,40 +248,40 @@
         }
       }
     }
-    
+
     .title {
       @apply flex justify-between gap-5;
-      
+
       article {
         @apply flex flex-col gap-4;
-        
+
         h3 {
           @apply text-dark-100 text-xl font-semibold md:text-3xl;
         }
-        
+
         p {
           @apply text-base font-normal text-gray-100 md:text-2xl;
         }
       }
-      
+
       h2 {
         @apply text-dark-100 text-sm font-normal md:text-xl;
       }
     }
   }
-  
+
   .trip-card {
     @apply shadow-300 rounded-[20px] relative w-full flex-col bg-white;
     img {
       @apply h-[160px] aspect-video w-full rounded-t-xl object-cover;
     }
-    
+
     article {
       @apply pl-[18px] mt-4 flex flex-col gap-3 pr-3.5;
       h2 {
         @apply text-dark-100 line-clamp-2 text-sm font-semibold md:text-lg;
       }
-      
+
       figure {
         @apply flex items-center gap-2;
         figCaption {
@@ -285,32 +290,32 @@
       }
     }
   }
-  
+
   .link-logo {
     @apply border-light-100 flex items-center gap-1.5 border-b py-10;
     h1 {
       @apply text-dark-100 text-base font-bold md:text-2xl;
     }
   }
-  
+
   .nav-footer {
     @apply flex items-center gap-2.5 pb-8;
     img {
       @apply size-10 aspect-square rounded-full;
     }
-    
+
     article {
       @apply gap-[2px] max-w-[115px] flex flex-col;
       h2 {
         @apply text-dark-200 truncate text-sm font-semibold md:text-base;
       }
-      
+
       p {
         @apply truncate text-xs font-normal text-gray-100 md:text-sm;
       }
     }
   }
-  
+
   .mobile-sidebar {
     @apply flex flex-col gap-5 lg:hidden;
     header {
@@ -318,13 +323,13 @@
       h1 {
         @apply text-dark-100 text-base font-bold md:text-2xl;
       }
-      
+
       a {
         @apply flex items-center gap-1.5 py-10;
       }
     }
   }
-  
+
   .root-nav {
     @apply flex items-center justify-between gap-4;
     a {
@@ -333,7 +338,7 @@
         @apply text-dark-100 text-base font-bold md:text-2xl;
       }
     }
-    
+
     aside {
       @apply flex items-center gap-4;
       img {
@@ -341,7 +346,7 @@
       }
     }
   }
-  
+
   .footer-container {
     @apply flex h-full items-center justify-between gap-5;
     a {
@@ -350,7 +355,7 @@
         @apply text-dark-100 text-base font-bold md:text-2xl;
       }
     }
-    
+
     div {
       @apply flex items-center gap-2 sm:gap-5;
       a {
@@ -358,14 +363,14 @@
       }
     }
   }
-  
+
   .header {
     @apply flex w-full flex-col justify-between gap-5 md:flex-row;
     article {
       @apply flex w-full flex-col gap-3.5;
     }
   }
-  
+
   .nav-items {
     @apply flex h-full flex-col px-6;
     .container {
@@ -375,26 +380,26 @@
       }
     }
   }
-  
+
   .admin-layout {
     @apply flex h-screen w-full flex-col lg:flex-row;
     .children {
       @apply bg-light-200 h-full w-full pt-12 lg:pt-10;
     }
   }
-  
+
   .user-trip {
     @apply flex flex-col justify-between gap-5 pb-20 lg:flex-row;
   }
-  
+
   .status-column {
     @apply w-[65px] py-[2px] flex items-center justify-center gap-1 rounded-2xl
     mix-blend-multiply;
   }
-  
+
   .dashboard {
     @apply flex w-full flex-col gap-10 pb-20;
-    
+
     .container {
       @apply mt-2.5 flex flex-col gap-5;
       h1 {
@@ -402,11 +407,11 @@
       }
     }
   }
-  
+
   .featured-card {
     @apply p-[30px] min-h-[230px] flex h-full flex-col justify-between gap-3.5;
   }
-  
+
   .featured {
     @apply gap-[30px] flex flex-col md:flex-row;
     article {
@@ -419,108 +424,108 @@
   .wrapper {
     @apply mx-auto w-full max-w-7xl px-4 lg:px-8;
   }
-  
+
   .wrapper-md {
     @apply mx-auto w-full max-w-3xl px-4 lg:px-8;
   }
-  
+
   .flex-center {
     @apply flex items-center justify-center;
   }
-  
+
   .flex-between {
     @apply flex items-center justify-between;
   }
-  
+
   .p-72-bold {
     @apply text-5xl font-bold md:text-7xl;
   }
-  
+
   .p-40-semibold {
     @apply text-3xl font-semibold md:text-[40px] md:leading-[44px];
   }
-  
+
   .p-30-bold {
     @apply text-2xl font-bold md:text-3xl;
   }
-  
+
   .p-28-bold {
     @apply text-[20px] leading-[16px] font-bold md:text-[28px] md:leading-[20px];
   }
-  
+
   .p-28-semibold {
     @apply text-[20px] leading-[16px] text-2xl font-semibold md:text-[28px]
     md:leading-[20px];
   }
-  
+
   .p-24-semibold {
     @apply text-lg font-semibold md:text-2xl;
   }
-  
+
   .p-20-semibold {
     @apply text-base font-semibold md:text-[20xp] md:leading-7;
   }
-  
+
   .p-18-bold {
     @apply text-[14px] leading-[14px] font-bold md:text-[18px] md:leading-[16px];
   }
-  
+
   .p-18-semibold {
     @apply text-[14px] leading-[14px] font-semibold md:text-[18px] md:leading-[16px];
   }
-  
+
   .p-18-regular {
     @apply text-[14px] leading-[14px] font-normal md:text-[18px] md:leading-[16px];
   }
-  
+
   .p-16-semibold {
     @apply text-sm font-semibold md:text-base;
   }
-  
+
   .button-class {
     @apply !bg-primary-100 !px-4 !rounded-lg !flex !items-center !justify-center
     !gap-1.5 !shadow-none;
   }
-  
+
   .button-class-secondary {
     @apply !bg-white !px-4 !rounded-lg !flex !items-center !justify-center !gap-1.5
     !shadow-sm;
   }
-  
+
   .form-label {
     @apply text-sm font-normal text-gray-100;
   }
-  
+
   .form-input {
     @apply border-light-400 text-dark-300 rounded-xl border p-3.5 text-base
     font-normal;
   }
-  
+
   .comboBox-popup {
     @apply shadow-200 h-[250px] absolute top-24 z-10 w-full overflow-hidden
     rounded-xl border border-gray-200 bg-white md:max-w-[660px];
   }
-  
+
   .tripCard-pill {
     @apply rounded-[20px] text-dark-100 absolute top-2.5 right-4 w-fit bg-white
     px-2.5 py-1 text-sm font-semibold;
   }
-  
+
   .price-pill {
     @apply rounded-[20px] text-dark-100 top-2.5 right-4 w-fit bg-white px-2.5 py-0.5
     text-sm font-semibold;
   }
-  
+
   .trip-grid {
     @apply grid grid-cols-1 gap-7 md:grid-cols-2 xl:grid-cols-4;
   }
-  
+
   .nav-item {
     @apply py-[18px] text-dark-200 flex cursor-pointer items-center gap-2.5
     rounded-lg px-3.5 text-xs font-normal hover:bg-primary-100 hover:text-white
     md:text-lg;
   }
-  
+
   .combo-box {
     @apply !p-3.5 !border !border-light-400 !rounded-xl !text-base !text-dark-300
     !font-normal w-full;
@@ -600,4 +605,128 @@ body {
   position: absolute;
   top: 45px;
   right: 40px;
+}
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: 'Inter Variable', sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
 }

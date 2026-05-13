@@ -1,4 +1,4 @@
-import { formatDate } from "../lib/utils";
+import { formatDate } from "@/lib/utils";
 import home from "../assets/icons/home.svg";
 import usersLogo from "../assets/icons/users.svg";
 import itinerary from "../assets/icons/itinerary.svg";
@@ -31,6 +31,29 @@ export const sidebarItems = [
 
 export const user = {name: 'Satheesh'};
 
+  type User = {
+    id: number;
+    name: string;
+      email: string;
+      imageUrl: string;
+      dateJoined: string;
+      status: string;
+      itineraryCreated?: number;
+
+}
+
+
+type UserHead = {
+  id : string,
+   name: string;
+      email: string;
+      imageUrl: string;
+      dateJoined: string;
+      status: string;
+itineraryCreated?: string;
+}
+
+
 export const dashboardStats = {
     totalUsers: 12450,
     usersJoined: {
@@ -42,7 +65,7 @@ export const dashboardStats = {
     userRole: {total: 62, currentMonth: 25, lastMonth: 15}
   }
 
- export    const allTrips = [{
+ export const allTrips = [{
       id: 1,
       name: "Tropical Rewind",
       imageUrls: [simple1],
@@ -80,7 +103,18 @@ export const dashboardStats = {
     },
     ];
 
-  export   const users = [
+export const UsersHead: UserHead = {
+      id: 'id',
+      name: 'name',
+      email: 'email',
+      imageUrl: 'imageUrl',
+      dateJoined: 'dateJoined',
+      status: 'status',
+      itineraryCreated: 'itineraryCreated'
+    };
+
+
+  export const users: User[] = [
     {
       id: 1,
       name: "John Doe",
