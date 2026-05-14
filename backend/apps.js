@@ -14,3 +14,11 @@ await User.create({
   status: "admin",
 });
 
+await User.create({
+  name: 'Panna',
+  email: "panna@gmail.com",
+  password: hashed,
+  joinedAt: new Date(),
+  status: 'user',
+})
+

@@ -1,12 +1,14 @@
-import { useLocation } from "react-router"
+import { Link, useLocation } from "react-router"
 import { cn } from "../lib/utils"
 
 interface Props {
     title: string,
     description: string,
+    ctaText?: string,
+    ctaUrl?: string
 }
 
-const Header = ({title, description}: Props) => {
+const Header = ({title, description, ctaText, ctaUrl}: Props) => {
     const location = useLocation();
   return (
     <header className='header'>
@@ -15,6 +17,11 @@ const Header = ({title, description}: Props) => {
              <p className={cn("text-gray-100 font-normal", location.pathname === '/' ? 'text-base md:text-lg': 'text-sm md:text-lg')}>{description}</p>
           
         </article>
+        {ctaText && ctaUrl && (
+          <Link to={ctaUrl}>
+
+          </Link>
+        )}
     </header>
   )
 }

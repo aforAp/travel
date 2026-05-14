@@ -3,6 +3,7 @@ import GridComponents from "../../lib/GridComponents"
 import { UsersHead, users } from "@/constants/index";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import {
   Table,
   TableBody,
@@ -13,9 +14,32 @@ import {
 } from "@/components/ui/table";
 
 const AllUsers = () => {
+const [usersList, setUsersList] = useState([]);
 
+  useEffect(() => {
 
-  const {id, name, email, dateJoined, status, itineraryCreated} = UsersHead;
+    async function AllUsers() {
+  
+     const token = localStorage.getItem('token');
+      const datas = await fetch('http://localhost:3001/auths/all-users',   {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            
+
+      });
+      const res = await datas.json();
+      console.log("The datassssss are");
+      console.log(res.user);
+      setUsersList(res.user);
+    }
+
+    AllUsers();
+    
+  }, []);
+
+  const {id, name, email, dateJoined, status} = UsersHead;
+ 
   return (
     <main className="all-user wrapper">
       <Header title="Manage Users" description="Filter, sort, and access detailed user profiles" />
@@ -36,10 +60,6 @@ const AllUsers = () => {
         </TableHead>
         <TableHead>
 
-      {itineraryCreated}
-        </TableHead>
-        <TableHead>
-
       {dateJoined}
         </TableHead>
          <TableHead>
@@ -49,12 +69,12 @@ const AllUsers = () => {
       </TableRow>
   
       </TableHeader>
-{users.map((user) =>(
+{usersList.map((user, index) =>(
 
   <TableBody>
   <TableRow className="h-15">
      <TableCell>
-      <h1 className="py-3 ml-3">{user.id}</h1>
+      <h1 className="py-3 ml-3">{index + 1}</h1>
        </TableCell>
        <TableCell>
         <span className="flex mt-2 sm:flex-col md:flex-row">
@@ -67,14 +87,10 @@ const AllUsers = () => {
        <TableCell>
         {user.email}
        </TableCell>
-     <TableCell>
-      <span className="ml-10">
-        {user.itineraryCreated}
-        </span>
-        </TableCell>
+    
      <TableCell>
         <span className="sm:truncate">
-          {user.dateJoined}
+          {formatDate(user.joinedAt)}
           </span>
           
        </TableCell>

@@ -143,3 +143,43 @@ export const UsersHead: UserHead = {
       status: "admin",
     },
   ];
+
+
+  export const selectItems = {
+  "groupType": "groupType",
+  "travelStyle": "travelStyle",
+  "interest": "interest",
+  "budget": "budget"
+   };
+
+   export const interests = [
+  "Food & Culinary",
+  "Historical Sites",
+  "Hiking & Nature Walks",
+  "Beaches & Water Activities",
+  "Museums & Art",
+  "Nightlife & Bars",
+  "Photography Spots",
+  "Shopping",
+  "Local Experiences",
+];
+
+   export const budgetOptions = ["Budget", "Mid-range", "Luxury", "Premium"];
+
+export const groupTypes = {
+  solo: "Solo",
+  couple: "Couple",
+  family: "Family",
+  friends: "Friends",
+  business: "Business"
+};;
+
+export const footers = ["Terms & Condition", "Privacy Policy"];
+
+
+
+export const comboBoxItems = {
+  groupType: groupTypes,
+  interest: interests,
+  budget: budgetOptions,
+} as Record<keyof TripFormData, string[]>;

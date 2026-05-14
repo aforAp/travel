@@ -115,4 +115,20 @@ router.get(
   }
 );
 
+router.get('/all-users', async (req, res) => {
+   try {
+    const user = await User.find().select('-password');
+
+   res.status(200).json({
+    data: 'success',
+    user: user
+   })
+   } 
+   catch (error) {
+   req.status(500).json({
+    message: error.message
+   })
+   }
+});
+
 export default router;
