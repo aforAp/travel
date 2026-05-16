@@ -13,24 +13,28 @@ const SignInForm = ({setFormNeeded}) => {
         setFormNeeded(false);
     }
 
+   
+
   async function handleSubmit(
     e: React.FormEvent<HTMLFormElement>
   ) {
     e.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:3001/auths/signin",
+        "http://localhost:3001/signin",
         {
           method: "POST",
 
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
+
+            headers: {
+    "Content-Type": "application/json"
+  },
+
 
           body: JSON.stringify(formData),
         }
       );
+
       const data = await response.json();
       console.log(data);
       if(data.status === 404 || data.status === 400) {

@@ -22,7 +22,7 @@ async function FindMe() {
   const token = localStorage.getItem("token");
   if(!token) return;
   try{
-  const res= await fetch('http://localhost:3001/auths/me', {
+  const res= await fetch('http://localhost:3001/me', {
             headers: {
               Authorization: `Bearer ${token}`,
             },

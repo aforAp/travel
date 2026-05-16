@@ -152,19 +152,24 @@ export const UsersHead: UserHead = {
   "budget": "budget"
    };
 
-   export const interests = [
-  "Food & Culinary",
-  "Historical Sites",
-  "Hiking & Nature Walks",
-  "Beaches & Water Activities",
-  "Museums & Art",
-  "Nightlife & Bars",
-  "Photography Spots",
-  "Shopping",
-  "Local Experiences",
-];
+export const interests = {
+  food_culinary: "Food & Culinary",
+  historical_sites: "Historical Sites",
+  hiking_nature_walks: "Hiking & Nature Walks",
+  beaches_water_activities: "Beaches & Water Activities",
+  museums_art: "Museums & Art",
+  nightlife_bars: "Nightlife & Bars",
+  photography_spots: "Photography Spots",
+  shopping: "Shopping",
+  local_experiences: "Local Experiences",
+};
 
-   export const budgetOptions = ["Budget", "Mid-range", "Luxury", "Premium"];
+   export const budgetOptions = {
+    Budget:"Budget", 
+    Mid_range:"Mid-range", 
+    Luxury:"Luxury", 
+    Premium:"Premium"
+  };
 
 export const groupTypes = {
   solo: "Solo",

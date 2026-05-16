@@ -2,14 +2,20 @@ import "dotenv/config";
 
 import cors from "cors";
 import express from "express";
+import AuthorizationRoutes from './routes/auth.routess.js';
 import authRoutes from './routes/auth.routes.js';
 import db from './config/db.js';
 const port = process.env.PORT;
 console.log(process.env.PORT);
 const token = process.env.JWT_SECRET;
 console.log(token);
+
 const app = express();
-app.use(express.json());
+app.use((req, res, next) => {
+  console.log("METHOD:", req.method);
+  console.log("URL:", req.url);
+  next();
+});
 db();
 app.use(
   cors({
@@ -18,6 +24,7 @@ app.use(
   })
 );
 app.use(express.json());
-app.use('/auths', authRoutes);
+app.use(AuthorizationRoutes);
+app.use(authRoutes);
 app.listen(port, ()  => {console.log("app was running successfully")});
 console.log(process.env.MONGODB_URI);

@@ -9,18 +9,17 @@ type User = {
 };
 const Dashboard = () => {
  const [currentUser, setCurrentUser] = useState<User | null>(null);
-
+const token = localStorage.getItem("token");
  useEffect(() => {
 
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem("token");
+       
         const response = await fetch(
-          "http://localhost:3001/auths/me",
+          "http://localhost:3001/me",
           {
             method: "GET",
             headers: {
-              "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
           }

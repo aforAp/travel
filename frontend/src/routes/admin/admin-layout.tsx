@@ -9,19 +9,19 @@ export async function clientLoader() {
   }
 
   try {
-    const res = await fetch("http://localhost:3001/auths/me", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await fetch("http://localhost:3001/me", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
     if (!res.ok) {
       return redirect("/forms");
     }
 
     const user = await res.json();
-
+  console.log("the user was", user);
     if (user.status !== "admin") {
       return redirect("/forms");
     }

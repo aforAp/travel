@@ -21,7 +21,8 @@ const [usersList, setUsersList] = useState([]);
     async function AllUsers() {
   
      const token = localStorage.getItem('token');
-      const datas = await fetch('http://localhost:3001/auths/all-users',   {
+      const datas = await fetch('http://localhost:3001/all-users',   {
+        method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
             },
