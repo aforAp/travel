@@ -11,6 +11,7 @@ import CreateTrip from './routes/admin/create-trip';
 import {loadersCountry} from "./lib/utils.ts";
 import Trips from './routes/admin/Trips';
 import 'leaflet/dist/leaflet.css';
+
 const router = createBrowserRouter(
   [
     {path: '/forms', element: <SignIn />},

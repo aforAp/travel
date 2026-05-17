@@ -145,12 +145,15 @@ export const UsersHead: UserHead = {
   ];
 
 
-  export const selectItems = {
-  "groupType": "groupType",
-  "travelStyle": "travelStyle",
-  "interest": "interest",
-  "budget": "budget"
-   };
+ 
+
+   export const selectItems = {
+  Adventure: "Adventure",
+  Luxury: "Luxury",
+  SoloTravel: "Solo Travel",
+  FamilyVacation: "Family Vacation",
+  CulturalExploration: "Cultural Exploration",
+};
 
 export const interests = {
   food_culinary: "Food & Culinary",

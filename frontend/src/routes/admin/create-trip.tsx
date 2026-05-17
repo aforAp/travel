@@ -6,7 +6,7 @@ import { selectItems, groupTypes, interests,budgetOptions } from "@/constants";
 import { DropdownMenuTravel } from "@/components/ui/DropDownMenuTravel";
 import Map from "@/components/ui/Map";
 import { cn } from "@/lib/utils";
-
+import {CreateTripsAI} from "../api/create-tripsAI.tsx";
 
 const CreateTrip = () => {
   const data = useLoaderData();
@@ -28,13 +28,13 @@ const mapData =
    country:  formData.country,
    coordinates: data.find((c: Country) => c.name === formData.country)?.coordinates || []
   };
-console.log("the formDtata");
-console.log(formData.country);
-console.log("the map data are");
+
+
+
 
 const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
   const token = localStorage.getItem("token");
- event.preventDefault();
+  event.preventDefault();
  setLoading(true);
 console.log("The formData" + formData.country, formData.travelStyle, formData.budget, formData.groupType, formData.interest);
  if(!formData.country || !formData.travelStyle || !formData.interest || !formData.budget || !formData.groupType) {
@@ -48,6 +48,7 @@ console.log("The formData" + formData.country, formData.travelStyle, formData.bu
   setLoading(false);
   return;
  }
+const { trip, imageUrls } = await CreateTripsAI(formData);
 
  const res = await fetch('http://localhost:3001/me', {
   method: "GET",
@@ -70,8 +71,31 @@ console.log("The formData" + formData.country, formData.travelStyle, formData.bu
    } finally {
     setLoading(false);
    }
-    
+      const dbRes = await fetch("http://localhost:3001/formDatas", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...formData,
+        tripsData: trip,
+        imageUrls,
+        createdAt: new Date().toISOString(),
+      }),
+    });
+try{
+
+  console.log("DB response:", dbRes);
+} catch (e) {
+    console.error("Error generating trip", e);
+  }
+
+  
 }
+
+
+
+
 
 const handleChange = (key: keyof TripFormData, value: string | number) => {
    setFormData((prev) => ({
