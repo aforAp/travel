@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Header from "@/components/Header.tsx";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { DropdownMenuComplex } from "@/components/ui/DropMenu.tsx";
 import { selectItems, groupTypes, interests,budgetOptions } from "@/constants";
 import { DropdownMenuTravel } from "@/components/ui/DropDownMenuTravel";
@@ -10,6 +10,7 @@ import {CreateTripsAI} from "../api/create-tripsAI.tsx";
 
 const CreateTrip = () => {
   const data = useLoaderData();
+  const navigate = useNavigate();
     console.log('Datas re');
    console.log([...data]);
      const [formData, setFormData] = useState<TripFormData>({
@@ -70,7 +71,7 @@ const { trip, imageUrls } = await CreateTripsAI(formData);
     console.error("Error generating trip", e);
    } finally {
     setLoading(false);
-   }
+   }  
       const dbRes = await fetch("http://localhost:3001/formDatas", {
       method: "POST",
       headers: {
@@ -78,18 +79,17 @@ const { trip, imageUrls } = await CreateTripsAI(formData);
       },
       body: JSON.stringify({
         ...formData,
+        requestId: Date.now(),
         tripsData: trip,
         imageUrls,
         createdAt: new Date().toISOString(),
       }),
     });
-try{
 
-  console.log("DB response:", dbRes);
-} catch (e) {
-    console.error("Error generating trip", e);
-  }
-
+    if(dbRes.status === 201){
+        const result = await dbRes.json();
+      navigate(`/trips/${result.id}`)
+    }
   
 }
 

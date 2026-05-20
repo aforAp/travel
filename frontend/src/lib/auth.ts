@@ -1,3 +1,4 @@
+
 import { redirect } from "react-router";
 
 export const loginWithGoogle = async () => {
@@ -85,4 +86,17 @@ return data;
     } catch(e) {
         console.log(e);
     }
+}
+
+
+export const loader = async ({params}) => {
+   
+    const {tripId} = params;
+    
+    if(!tripId) throw new Error('Trip ID is required');
+
+    const trip = await fetch(`http://localhost:3001/TripById/${tripId}`);
+    const data = await trip.json();
+
+    return data;
 }

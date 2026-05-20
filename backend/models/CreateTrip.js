@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 
 const CreateTripSchema = new mongoose.Schema({
+  requestId: {
+    type: Number,
+    required:true
+  },
   country: {
     type: String,
     required: true,
