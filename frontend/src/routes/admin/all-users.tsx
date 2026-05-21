@@ -1,5 +1,4 @@
 import { Header } from "../../components"
-import GridComponents from "../../lib/GridComponents"
 import { UsersHead, users } from "@/constants/index";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
@@ -12,30 +11,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { AllUsersFunc } from "@/lib/trips";
 
 const AllUsers = () => {
 const [usersList, setUsersList] = useState([]);
 
   useEffect(() => {
 
-    async function AllUsers() {
+    async function AllUserss() {
   
-     const token = localStorage.getItem('token');
-      const datas = await fetch('http://localhost:3001/all-users',   {
-        method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            
-
-      });
-      const res = await datas.json();
-      console.log("The datassssss are");
-      console.log(res.user);
-      setUsersList(res.user);
+     
+      const {datas} = await AllUsersFunc();
+      console.log("the data of the users");
+      setUsersList(datas);
     }
 
-    AllUsers();
+    AllUserss();
     
   }, []);
 

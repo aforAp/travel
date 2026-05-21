@@ -23,7 +23,8 @@ router.get("/me", authMiddleware, async (req, res) => {
 router.get("/all-users", authMiddleware, async (req, res) => {
   try {
     const user = await User.find().select("-password");
-
+console.log("users");
+console.log(user);
     res.status(200).json({
       data: "success",
       user,

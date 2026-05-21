@@ -1,48 +1,31 @@
 import {useState, useEffect} from 'react';
 import { Header, StatsCard, TripCard } from "../../components"
 import { dashboardStats, user, allTrips } from "../../constants";
-
-const {totalUsers, usersJoined, totalTrips, tripsCreated, userRole} = dashboardStats;
+import { AuthMe } from '@/lib/trips';
+import {getUsersAndTripsStats} from "@/components/ui/Dashboard";
 type User = {
   name: string;
   email: string;
 };
 const Dashboard = () => {
  const [currentUser, setCurrentUser] = useState<User | null>(null);
-const token = localStorage.getItem("token");
+ const [dashboardStats, setDashboardStats] = useState(null);
+ 
  useEffect(() => {
+    async function LoggedIn() {
+      const [data, dashboardStats] = await Promise.all([await AuthMe(),
+      await getUsersAndTripsStats()]);
+     console.log("The dashboard stats");
+      const {totalUsers, usersJoined, currentMonth, lastMonth, userRole, totalTrips, tripsCreated} = dashboardStats;
+      console.log("the data");
+      console.log(data.user);
+      setCurrentUser(data.user);
+      console.log("the stats");
+      console.log(dashboardStats);
+      setDashboardStats(dashboardStats);
+    }
 
-    const fetchUser = async () => {
-      try {
-       
-        const response = await fetch(
-          "http://localhost:3001/me",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        // request failed
-        if (!response.ok) {
-          throw new Error("Failed to fetch user");
-        }
-
-        const data = await response.json();
-
-        console.log(data);
-
-        // adjust this based on backend response
-        setCurrentUser(data);
-
-      } catch (error) {
-        console.log("Error fetching user:", error);
-      } 
-    };
-
-    fetchUser();
+    LoggedIn();
 
   }, []);
 
@@ -54,23 +37,23 @@ const token = localStorage.getItem("token");
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
            <StatsCard 
               headerTitle="Total Users"
-              total={totalUsers}
-              currentMonthCount={usersJoined.currentMonth}
-              lastMonthCount={usersJoined.lastMonth}
+              total={dashboardStats?.totalUsers}
+              currentMonthCount={dashboardStats?.usersJoined?.currentMonth}
+              lastMonthCount={dashboardStats?.usersJoined?.lastMonth}
 
            />
            <StatsCard 
               headerTitle="Total Trips"
-              total={userRole.total}
-              currentMonthCount={userRole.currentMonth}
-              lastMonthCount={userRole.lastMonth}
+              total={dashboardStats?.totalTrips}
+              currentMonthCount={dashboardStats?.tripsCreated?.currentMonth}
+              lastMonthCount={dashboardStats?.tripsCreated?.lastMonth}
 
            />
            <StatsCard 
               headerTitle="Active Users Today"
-              total={totalUsers}
-              currentMonthCount={usersJoined.currentMonth}
-              lastMonthCount={usersJoined.lastMonth}
+              total={dashboardStats?.userRole.total}
+              currentMonthCount={dashboardStats?.userRole?.currentMonth}
+              lastMonthCount={dashboardStats?.usersRole?.lastMonth}
 
            />
         </div>
@@ -80,7 +63,7 @@ const token = localStorage.getItem("token");
             Created Trips
         </h1>
         <div className="trip-grid">
-          {allTrips.slice(0, 4).map(({id, name, imageUrls, itinerary, tags, estimatedPrice}) => (
+          {dashboardStats?.allTrips?.slice(0, 4).map(({id, name, imageUrls, itinerary, tags, estimatedPrice}) => (
             <TripCard 
             key={id}
             id={id.toString()}

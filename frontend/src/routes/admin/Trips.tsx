@@ -3,31 +3,56 @@ import { getAllTrips } from "@/lib/trips";
 import { Plus } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+const LIMIT = 2;
 const Trips = () => {
+
+  const [searchParams, setSearchParams] = useSearchParams();
+   const page = Number(searchParams.get("page")) || 1;
 const navigate = useNavigate();
   const TripsList = {
     allTrips: [],
-    total: 0
+    total: 0,
+    totalPages: 0
   };
-const [searchParams] = useSearchParams();
-const initialPage = Number(searchParams.get('page') || '1');
-const [currentPage, setCurrentPage] = useState(initialPage);
 
-const handlePageChange = (page: number) => {
-  setCurrentPage(page);
-  window.location.search = `?page=${page}`
-}
+  const [currentPage, setCurrentPage] = useState(page);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.location.search  = `?page=${page}`
+  }
+
   function NavigationToForms() {
     navigate('create');
   }
 const [tripData, setTripData] = useState(TripsList);
-  useEffect(() => {
-    async function AllTrips() {
-     const data = await getAllTrips();
-     setTripData({...tripData, allTrips: data.data, total: data.data.length});
-    }
-    AllTrips();
-  },[]);
+useEffect(() => {
+  async function AllTrips() {
+    console.log("inside useEffect Pages", page);
+    const {data} = await getAllTrips(page, LIMIT);
+    console.log("the Trips Data are", data);
+     setTripData(prev => ({
+    ...prev,
+     allTrips: data.data,
+      total: data.total,
+      totalPages: data.totalPages
+   }));
+  }
+
+  AllTrips();
+}, [page]);
+
+
+
 
      return (
     <main className="all-user wrapper">
@@ -49,7 +74,34 @@ const [tripData, setTripData] = useState(TripsList);
     
        </>
      ))} 
-  </div>       
+  </div> 
+  <div className="flex flex-row justify-between px-10 pt-3">
+   <Pagination>
+    <PaginationContent>
+      <PaginationItem>
+        <PaginationPrevious  onClick={() => handlePageChange(page - 1)}/>
+        </PaginationItem>
+{Array.from({length: tripData.totalPages}, (_, index) =>  (
+  <PaginationItem key={index}>
+    <PaginationLink
+      href={`?page=${index + 1}`}
+      isActive={page === index + 1}
+      onClick={() =>
+        setSearchParams({ page: String(index + 1) })
+      }
+    >
+      {index + 1}
+    </PaginationLink>
+  </PaginationItem>
+))}
+
+<PaginationItem>
+  <PaginationNext onClick={() => handlePageChange(page + 1)}/>
+</PaginationItem>
+
+</PaginationContent>
+   </Pagination>
+   </div>      
   </section>
    </main>
   )

@@ -1,6 +1,6 @@
 import { Header, InfoPill, TripCard } from "@/components";
 import ChipDirective from "@/components/ui/ChipDirective";
-import { getAllTrips } from "@/lib/trips";
+import { getAllTrips, getAllTripsOnly } from "@/lib/trips";
 import { cn, getFirstWord } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useRouteLoaderData } from "react-router";
@@ -39,9 +39,11 @@ const pillItems = [
 useEffect(() => {
    
     async function Datas() {
-     const data = await getAllTrips();
+     const {data} = await getAllTripsOnly();
+     console.log("datas are");
+     const trips =[...data.data];
      setAllTrips(
-       (prev) => [...prev, ...data.data]);
+       (prev) => [...prev, ...trips]);
     }
     Datas();
 }, []);

@@ -43,9 +43,29 @@ router.post('/formDatas', async (req, res) => {
 
 router.get('/allTrips', async (req, res) => {
     try {
-        const data = await createTrip.find();
+       const page = req.query.page;
+        const limit = req.query.limit || 2;
+        const skip = (page - 1) * limit;
+
+        console.log("PAGE:", page);
+    console.log("LIMIT:", limit);
+    console.log("SKIP:", skip);
+            const total = await createTrip.countDocuments();
+             const data = await createTrip
+      .find()
+      .skip(skip)
+      .limit(limit);
         console.log("the backend data", data);
-        res.status(200).json(data);
+        const totalPages = Math.ceil(total / limit);
+
+    res.status(200).json({
+      success: true,
+      data,
+      total,
+      page,
+      limit,
+      totalPages
+    });
 
     } catch(err){
         res.status(500).json({
@@ -54,6 +74,18 @@ router.get('/allTrips', async (req, res) => {
     }
 });
 
+
+router.get('/allTripss', async (req, res) => {
+    try{
+    const data = await createTrip.find();
+    res.status(200).json({
+        data: data
+    })
+      }
+      catch(err){
+        console.log(err);
+      }
+})
 
 router.get('/TripById/:id', async (req, res) => {
     try {
