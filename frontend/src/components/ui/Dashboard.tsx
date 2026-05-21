@@ -1,4 +1,5 @@
 import { AllUsersFunc, getAllTripsOnly } from "@/lib/trips";
+import { parseTripData } from "@/lib/utils";
 
 interface Document {
   [key: string]: any;
@@ -10,6 +11,11 @@ type FilterByDate = (
   start: string,
   end?: string
 ) => number;
+
+
+type Trip = {
+  tripDetails: string;
+};
 
 export const getUsersAndTripsStats = async (): Promise<DashboardStats> => {
 
@@ -153,3 +159,77 @@ console.log(
   
 };
 
+export const getUserGrowthPerDay = async () => {
+    const users = await AllUsersFunc();
+
+    const userGrowth = users.datas.reduce(
+        (acc: { [key: string]: number }, user: Document) => {
+            const date = new Date(user.joinedAt);
+            const day = date.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+            });
+            acc[day] = (acc[day] || 0) + 1;
+            return acc;
+        },
+        {}
+    );
+
+    return Object.entries(userGrowth).map(([day, count]) => ({
+        count: Number(count),
+        day,
+    }));
+};
+
+export const getTripsCreatedPerDay = async () => {
+    const trips = await getAllTripsOnly();
+console.log("the trips in the dashboard wow wow");
+    console.log(trips.data.data);
+
+    const tripsGrowth = trips.data.data.reduce(
+        (acc: { [key: string]: number }, trip: Trip) => {
+            const date = new Date(trip.createdAt);
+            const day = date.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+            });
+            acc[day] = (acc[day] || 0) + 1;
+            return acc;
+        },
+        {}
+    );
+
+    return Object.entries(tripsGrowth).map(([day, count]) => ({
+        count: Number(count),
+        day,
+    }));
+};
+
+export const getTripsByTravelStyle = async () => {
+    const trips = await getAllTripsOnly();
+    console.log("the trips in the dashboard");
+    console.log(trips.data.data);
+    const datas = trips.data.data;
+
+    const travelStyleCounts = datas.reduce(
+        (acc: { [key: string]: number }, trip) => {
+
+         const TripDatas = trip.tripsData;
+            if (trip && TripDatas.travelStyle) {
+                const travelStyle = trip.travelStyle;
+                acc[travelStyle] = (acc[travelStyle] || 0) + 1;
+            }
+            return acc;
+        },
+        {}
+    );
+
+    return travelStyleCounts;
+/*
+  const tripsByTravelStyle = Object.entries(travelStyleCounts).map(([travelStyle, count]) => ({
+        count: Number(count),
+        travelStyle,
+    }));
+    console.log("tripsByTravelStyle", tripsByTravelStyle);
+    */
+};

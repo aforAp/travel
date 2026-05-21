@@ -10,6 +10,7 @@ const TripsDetail = () => {
    ]);
     const tripData =  useRouteLoaderData('TripDetails');
    const {
+    _id,
   country,
   duration,
   imageUrls,
@@ -40,10 +41,16 @@ useEffect(() => {
    
     async function Datas() {
      const {data} = await getAllTripsOnly();
-     console.log("datas are");
-     const trips =[...data.data];
-     setAllTrips(
-       (prev) => [...prev, ...trips]);
+     console.log("datas are", data);
+     const trips = data.data.map(({_id, travelStyle, imageUrls, tripsData}) => ({
+    id: _id,
+    tripsData,
+    imageUrls: imageUrls ?? [],
+  }));
+  console.log("the trips in the details page");
+  console.log(trips);
+
+     setAllTrips(trips);
     }
     Datas();
 }, []);
@@ -97,7 +104,7 @@ useEffect(() => {
     <div className="trip-grid">
      {allTrips.map((trips, id) => (
          <>
-       <TripCard id={id} name={trips.tripsData.name} location={trips.country} imageUrl={trips.imageUrls[0]} price={trips.tripsData.estimatedPrice} tags={['interests', 'travelStyle']} />
+       <TripCard id={trips.id} name={trips.tripsData.name} location={trips.tripsData.country} imageUrl={trips.imageUrls[0]} price={trips.tripsData.estimatedPrice} tags={['interests', 'travelStyle']} />
     
        </>
      ))}

@@ -16,7 +16,9 @@ const router = createBrowserRouter(
 {path: 'trips/create', loader:loadersCountry,  element: <CreateTrip />},
 {path: 'trips', element: <Trips />},
 {path: 'trips/:tripId', id: 'TripDetails', loader: TripLoader, element: <TripsDetail />}
-  ]}]);
+  ]},
+  
+]);
 
 
 createRoot(document.getElementById('root')!).render(

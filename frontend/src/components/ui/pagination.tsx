@@ -91,8 +91,8 @@ function PaginationNext({
       className={cn("pr-2!", className)}
       {...props}
     >
-      <span className="hidden sm:block">{text}</span>
-      <ChevronRightIcon data-icon="inline-end" />
+       <span className="hidden sm:block">{text}</span>
+   <ChevronRightIcon data-icon="inline-end" />
     </PaginationLink>
   )
 }

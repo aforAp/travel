@@ -70,7 +70,7 @@ useEffect(() => {
        <div className="trip-grid">
        {tripData.allTrips.map((trips, id) => (
          <>
-       <TripCard id={id} name={trips.tripsData.name} location={trips.country} imageUrl={trips.imageUrls[0]} price={trips.tripsData.estimatedPrice} tags={['interests', 'travelStyle']} />
+       <TripCard id={trips._id} name={trips.tripsData.name} location={trips.country} imageUrl={trips.imageUrls[0]} price={trips.tripsData.estimatedPrice} tags={['interests', 'travelStyle']} />
     
        </>
      ))} 
@@ -96,7 +96,11 @@ useEffect(() => {
 ))}
 
 <PaginationItem>
-  <PaginationNext onClick={() => handlePageChange(page + 1)}/>
+  <PaginationNext onClick={() => handlePageChange(page + 1)} className={
+      page >= tripData.totalPages
+        ? "pointer-events-none opacity-50"
+        : "cursor-pointer"
+    }/>
 </PaginationItem>
 
 </PaginationContent>
